@@ -27,18 +27,23 @@ void displayWarning(const std::string& message) {
   }
 }
 
+int handleVitalCheck(const std::string& message, bool isCritical) {
+    if (isCritical) {
+        displayWarning(message);
+        return 0;
+    }
+    return 1;
+}
+
 int vitalsOk(float temperature, float pulseRate, float spo2) {
-  if (isTemperatureCritical(temperature)) {
-    displayWarning("Temperature is critical!");
-    return 0;
-  }
-  if (isPulseRateCritical(pulseRate)) {
-    displayWarning("Pulse Rate is out of range!");
-    return 0;
-  }
-  if (isSpo2Critical(spo2)) {
-    displayWarning("Oxygen Saturation out of range!");
-    return 0;
-  }
-  return 1;
+    if (handleVitalCheck("Temperature is critical", isTemperatureCritical(temperature)) == 0) {
+        return 0;
+    }
+    if (handleVitalCheck("Pulse Rate is out of range", isPulseRateCritical(pulseRate)) == 0) {
+        return 0;
+    }
+    if (handleVitalCheck("Oxygen Saturation out of range", isSpo2Critical(spo2)) == 0) {
+        return 0;
+    }
+    return 1;
 }
