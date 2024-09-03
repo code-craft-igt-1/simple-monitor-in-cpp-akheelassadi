@@ -30,7 +30,7 @@ void displayWarning(const std::string& message) {
 int handleAndCheckVitals(const std::string& message, bool isCritical) {
     if (isCritical) {
         displayWarning(message);
-        return 0; 
+        return 0;
     }
     return 1;
 }
