@@ -31,11 +31,11 @@ int vitalsOk(float temperature, float pulseRate, float spo2) {
   if (isTemperatureCritical(temperature)) {
     displayWarning("Temperature is critical!");
     return 0;
-  } 
+  }
   if (isPulseRateCritical(pulseRate)) {
     displayWarning("Pulse Rate is out of range!");
     return 0;
-  } 
+  }
   if (isSpo2Critical(spo2)) {
     displayWarning("Oxygen Saturation out of range!");
     return 0;
