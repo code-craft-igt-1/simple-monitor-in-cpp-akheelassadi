@@ -23,8 +23,10 @@ bool isSpo2Critical(float spo2) {
 }
 
 bool isWithinWarningRange(float value, float lowerBound, float upperBound, float tolerance) {
-    return (value >= lowerBound && value <= lowerBound + tolerance) ||
-        (value >= upperBound - tolerance && value <= upperBound);
+    if (value >= lowerBound && value <= lowerBound + tolerance) {
+        return true;
+    }
+    return value >= upperBound - tolerance && value <= upperBound;
 }
 
 bool isTemperatureWarning(float temperature) {
