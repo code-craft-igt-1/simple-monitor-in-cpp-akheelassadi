@@ -63,10 +63,21 @@ int handleAndCheckVitals(const std::string& criticalMessage, const std::string& 
 }
 
 int vitalsOk(float temperature, float pulseRate, float spo2) {
-
     int result = 1;
-    result &= handleAndCheckVitals("Temperature is critical!","Approaching hypothermia/hyperthermia!",isTemperatureCritical(temperature),isTemperatureWarning(temperature));
-    result &= handleAndCheckVitals("Pulse Rate is out of range!","Approaching abnormal pulse rate!",isPulseRateCritical(pulseRate),isPulseRateWarning(pulseRate));
-    result &= handleAndCheckVitals("Oxygen Saturation out of range!","Approaching abnormal SPO2 levels!",isSpo2Critical(spo2),isSpo2Warning(spo2));
+    result &= handleAndCheckVitals("Temperature is critical!",
+        "Approaching hypothermia/hyperthermia!",
+        isTemperatureCritical(temperature),
+        isTemperatureWarning(temperature));
+
+    result &= handleAndCheckVitals("Pulse Rate is out of range!",
+        "Approaching abnormal pulse rate!",
+        isPulseRateCritical(pulseRate),
+        isPulseRateWarning(pulseRate));
+
+    result &= handleAndCheckVitals("Oxygen Saturation out of range!",
+        "Approaching abnormal SPO2 levels!",
+        isSpo2Critical(spo2),
+        isSpo2Warning(spo2));
+
     return result;
 }
