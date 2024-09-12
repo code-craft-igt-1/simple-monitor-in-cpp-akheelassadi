@@ -19,8 +19,7 @@ bool isValueCritical(float value, float lowerBound, float upperBound) {
 }
 
 bool isWithinWarningRange(float value, float lowerBound, float upperBound, float tolerance) {
-    return (value >= lowerBound && value <= lowerBound + tolerance) ||
-        (value >= upperBound - tolerance && value <= upperBound);
+    return (value >= lowerBound - tolerance && value <= upperBound + tolerance);
 }
 
 bool isTemperatureCritical(float temperature) {
