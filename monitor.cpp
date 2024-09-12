@@ -5,40 +5,46 @@
 #include <iostream>
 using std::cout, std::flush, std::this_thread::sleep_for, std::chrono::seconds;
 
-// Warning tolerances (1.5% of upper limit)
-const float tempWarningTolerance = 102 * 0.015;
-const float pulseWarningTolerance = 100 * 0.015;
+// Define limits and tolerances
+const float temperatureUpper = 102.0f, temperatureLower = 95.0f;
+const float pulseUpper = 100.0f, pulseLower = 60.0f;
+const float spo2Lower = 90.0f;
+
+const float tempWarningTolerance = temperatureUpper * 0.015;
+const float pulseWarningTolerance = pulseUpper * 0.015;
 const float spo2WarningTolerance = 100 * 0.015;
 
-bool isTemperatureCritical(float temperature) {
-  return (temperature > 102 || temperature < 95);
-}
-
-bool isPulseRateCritical(float pulseRate) {
-  return (pulseRate < 60 || pulseRate > 100);
-}
-
-bool isSpo2Critical(float spo2) {
-  return (spo2 < 90);
+bool isValueCritical(float value, float lowerBound, float upperBound) {
+    return (value < lowerBound || value > upperBound);
 }
 
 bool isWithinWarningRange(float value, float lowerBound, float upperBound, float tolerance) {
-    if (value >= lowerBound && value <= lowerBound + tolerance) {
-        return true;
-    }
-    return value >= upperBound - tolerance && value <= upperBound;
+    return (value >= lowerBound && value <= lowerBound + tolerance) ||
+        (value >= upperBound - tolerance && value <= upperBound);
+}
+
+bool isTemperatureCritical(float temperature) {
+    return isValueCritical(temperature, temperatureLower, temperatureUpper);
+}
+
+bool isPulseRateCritical(float pulseRate) {
+    return isValueCritical(pulseRate, pulseLower, pulseUpper);
+}
+
+bool isSpo2Critical(float spo2) {
+    return (spo2 < spo2Lower);
 }
 
 bool isTemperatureWarning(float temperature) {
-    return isWithinWarningRange(temperature, 95, 102, tempWarningTolerance);
+    return isWithinWarningRange(temperature, temperatureLower, temperatureUpper, tempWarningTolerance);
 }
 
 bool isPulseRateWarning(float pulseRate) {
-    return isWithinWarningRange(pulseRate, 60, 100, pulseWarningTolerance);
+    return isWithinWarningRange(pulseRate, pulseLower, pulseUpper, pulseWarningTolerance);
 }
 
 bool isSpo2Warning(float spo2) {
-    return (spo2 >= 90 && spo2 <= 90 + spo2WarningTolerance);
+    return (spo2 >= spo2Lower && spo2 <= spo2Lower + spo2WarningTolerance);
 }
 
 void displayEarlyWarning(const std::string& message) {
@@ -46,18 +52,19 @@ void displayEarlyWarning(const std::string& message) {
 }
 
 void displayWarning(const std::string& message) {
-  cout << message << "\n";
-  for (int i = 0; i < 6; i++) {
-    cout << "\r* " << flush;
-    sleep_for(seconds(1));
-    cout << "\r *" << flush;
-    sleep_for(seconds(1));
-  }
+    cout << message << "\n";
+    for (int i = 0; i < 6; i++) {
+        cout << "\r* " << flush;
+        sleep_for(seconds(1));
+        cout << "\r *" << flush;
+        sleep_for(seconds(1));
+    }
 }
 
+// Handle vitals with critical and warning checks
 int handleAndCheckVitals(const std::string& criticalMessage,
-                         const std::string& warningMessage,
-                         bool isCritical, bool isWarning) {
+    const std::string& warningMessage,
+    bool isCritical, bool isWarning) {
     if (isWarning) {
         displayEarlyWarning(warningMessage);
     }
