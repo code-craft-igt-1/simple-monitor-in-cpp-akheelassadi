@@ -35,7 +35,8 @@ bool isSpo2Critical(float spo2) {
 }
 
 bool isTemperatureWarning(float temperature) {
-    return isWithinWarningRange(temperature, temperatureLower, temperatureUpper, tempWarningTolerance);
+    return isWithinWarningRange(temperature, 
+                                temperatureLower, temperatureUpper, tempWarningTolerance);
 }
 
 bool isPulseRateWarning(float pulseRate) {
