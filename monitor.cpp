@@ -23,13 +23,13 @@ bool isSpo2Critical(float spo2) {
 }
 
 bool isTemperatureWarning(float temperature) {
-    return (temperature >= 95 && temperature <= 95 + tempWarningTolerance) ||
-        (temperature >= 102 - tempWarningTolerance && temperature <= 102);
+    return (temperature >= 95 && temperature <= 102) &&
+        (temperature <= 95 + tempWarningTolerance || temperature >= 102 - tempWarningTolerance);
 }
 
 bool isPulseRateWarning(float pulseRate) {
-    return (pulseRate >= 60 && pulseRate <= 60 + pulseWarningTolerance) ||
-        (pulseRate >= 100 - pulseWarningTolerance && pulseRate <= 100);
+    return (pulseRate >= 60 && pulseRate <= 100) &&
+        (pulseRate <= 60 + pulseWarningTolerance || pulseRate >= 100 - pulseWarningTolerance);
 }
 
 bool isSpo2Warning(float spo2) {
