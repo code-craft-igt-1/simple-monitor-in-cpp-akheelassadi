@@ -50,7 +50,9 @@ void displayWarning(const std::string& message) {
   }
 }
 
-int handleAndCheckVitals(const std::string& criticalMessage, const std::string& warningMessage, bool isCritical, bool isWarning) {    
+int handleAndCheckVitals(const std::string& criticalMessage,
+                         const std::string& warningMessage,
+                         bool isCritical, bool isWarning) {  
     if (isWarning) {
         displayEarlyWarning(warningMessage);
     }
